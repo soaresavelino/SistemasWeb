@@ -1,0 +1,14 @@
+# Ignorar ambiente virtual
+venv/
+
+# Ignorar caches do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Banco de dados local
+*.db
+
+# Arquivos de ambiente
+.env

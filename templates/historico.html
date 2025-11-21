@@ -1,0 +1,38 @@
+{% extends "template.html" %}
+
+{% block page_header %}
+    <h1 class="text-center">Histórico de Ações</h1>
+{% endblock %}
+
+{% block conteudo %}
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Entidade</th>
+            <th>ID Entidade</th>
+            <th>Ação</th>
+            <th>Usuário</th>
+            <th>Data e Hora</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for acao in acoes %}
+        <tr>
+            <td>{{ acao[0] }}</td>
+            <td>{{ acao[1] }}</td>
+            <td>{{ acao[2] }}</td>
+            <td>{{ acao[3] }}</td>
+            <td>{{ acao[4] }}</td>
+            <td>{{ acao[5].strftime('%d/%m/%Y %H:%M:%S') if acao[5] else '' }}</td>
+            <td>{{ acao[6] or '' }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7" class="text-center">Nenhum registro de ações encontrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

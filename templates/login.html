@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - CadastraFácil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
+</head>
+<body class="login-page">
+
+  <div class="login-container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="login-box row shadow-lg rounded p-4 bg-white">
+
+      <div class="login-info col-md-6 d-none d-md-flex flex-column justify-content-center px-4">
+        <h1 class="mb-3">Controle de Estoque do Supermercado Hiper</h1>
+        <img src="{{ url_for('static', filename='images/alimentos.png') }}" alt="Alimentos" class="img-fluid rounded" />
+      </div>
+
+      <div class="login-form col-md-6 px-4">
+        <h2 class="mb-4 text-center">Faça seu login</h2>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="list-unstyled">
+              {% for message in messages %}
+                <li class="alert alert-danger" role="alert">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('autenticar') }}">
+          <input type="hidden" name="proxima" value="{{ proxima }}">
+          {{ form.csrf_token }}
+
+          <div class="mb-3">
+            {{ form.nickname.label(class="form-label", for="nickname") }}
+            {{ form.nickname(class="form-control", id="nickname", placeholder="Digite seu usuário") }}
+          </div>
+
+          <div class="mb-3">
+            {{ form.senha.label(class="form-label", for="senha") }}
+            {{ form.senha(class="form-control", id="senha", placeholder="Digite sua senha") }}
+          </div>
+
+          <!-- Campo para selecionar o cargo -->
+          <div class="mb-4">
+            {{ form.cargo.label(class="form-label", for="cargo") }}
+            {{ form.cargo(class="form-select", id="cargo") }}
+          </div>
+
+          <div class="d-grid gap-3">
+            {{ form.login(class="btn btn-success btn-lg") }}
+            <a class="btn btn-outline-secondary btn-lg" href="{{ url_for('index') }}">Voltar</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

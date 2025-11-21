@@ -1,0 +1,39 @@
+Execução da aplicação web chamada "CadastraFácil" desenvolvida em Flask,  um framework web em Python para o backend e outras tecnologias, como PostgreSQL, Flask-WTF, Bootstrap, CSS, e Jinja2.
+Passo a passo para execução do script:
+
+1. Como pré-requisito, é necessário que tenha instalado em sua máquina um ambiente de desenvolvimento (Optei por utilizar o VS Code).
+
+2. O segundo passo é garantir que o Python 3 esteja instalado no seu sistema.
+
+3. Crie um ambiente virtual para isolar as dependências do projeto. Isso pode ser feito executando: python -m venv venv
+
+4. No terminal do seu ambiente de desenvolvimento, instale as dependências do projeto, executando o seguinte comando: 
+pip install Flask psycopg2 Flask-WTF
+
+5. Modifique as configurações de conexão com o banco de dados localizada em ./loja.py para corresponder às suas credenciais de POSTGRESQL:
+
+def conecta_bd():
+    return psycopg2.connect(
+        host="localhost",
+        database="seu banco de dados",
+        user="seu usuario",
+        password="sua senha"
+)
+6. Execute o script SQL para criar as tabelas, você pode encontrar os scripts para criação do BD no diretório ./database/create.sql.
+
+7. Com o banco de dados configurado e todas as dependências instaladas, você já pode rodar o projeto. No terminal, execute o seguinte comando para rodar a aplicação: python loja.py, acluqie no botão de executar e acesse o endereço local.
+O servidor Flask deve iniciar, e você pode acessar o sistema pelo navegador.
+
+obs: alguns comandos talves precisam ser utilizados para q seja concedido privilégios ao usuário, permitindo q ele acesse e manipule dados, além de realizar operaçoes:
+
+-- 1. Concede todos os privilégios (SELECT, INSERT, UPDATE, DELETE) em TODAS as tabelas EXISTENTES.
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "Usuário";
+
+-- 2. Concede permissão de uso em TODAS as "sequences" (usadas para gerar IDs automáticos).
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO "Usuário";
+
+-- 3. Garante que o usuário "Laura andrade" terá automaticamente permissão em QUALQUER TABELA NOVA criada no futuro.
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO "Usuário";
+
+-- 4. O mesmo para as "sequences" de tabelas futuras.
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON SEQUENCES TO "Usuário";

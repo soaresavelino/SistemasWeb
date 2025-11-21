@@ -1,0 +1,59 @@
+{% extends "template.html" %}
+
+{% block page_header %}
+<div class="page-header text-center mb-3">
+    <h1>Lista de Produtos</h1>
+</div>
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-primary" href="{{ url_for('novo') }}">Adicionar Novo Produto</a>
+    <form method="GET" action="{{ url_for('produtos') }}" class="d-flex gap-2">
+        <input type="text" name="nome" placeholder="Nome do Produto" value="{{ request.args.get('nome', '') }}"
+            class="form-control">
+        <input type="text" name="fornecedor" placeholder="Fornecedor" value="{{ request.args.get('fornecedor', '') }}"
+            class="form-control">
+        <button type="submit" class="btn btn-secondary">Filtrar</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+{% if produtos %}
+<table class="table table-striped table-responsive table-bordered">
+    <thead class="thead-default">
+        <tr>
+            <th>Nome do Produto</th>
+            <th>Código</th>
+            <th>Preço (R$)</th>
+            <th>Quantidade</th>
+            <th>Data de Validade</th>
+            <th>Fornecedor</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto.nome_produto }}</td>
+            <td>{{ produto.codigo }}</td>
+            <td>R$ {{ '%.2f'|format(produto.preco) }}</td>
+            <td>{{ produto.quantidade }}</td>
+            <td>{{ produto.data_validade.strftime('%d/%m/%Y') if produto.data_validade else '' }}</td>
+            <td>{{ produto.nome_fornecedor or 'Sem fornecedor' }}</td>
+            <td>{{ produto.nome_categoria or 'Sem categoria' }}</td>
+            <td>
+                <a class="btn btn-primary" href="{{ url_for('editar', id=produto.id) }}">Editar</a>
+                <form action="{{ url_for('deletar', id=produto.id) }}" method="post" style="display:inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Confirma a exclusão deste produto?')">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Nenhum produto encontrado para os filtros aplicados.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "template.html" %}
+
+{% block page_header %}
+<div class="page-header text-center mb-3">
+    <h1>Consultas Personalizadas</h1>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+<div class="card p-4 mb-4">
+    <form method="POST" class="row g-3">
+        {{ form.hidden_tag() }}
+
+        <div class="col-md-4">
+            {{ form.tipo.label(class="form-label") }}
+            {{ form.tipo(class="form-select") }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form.parametro.label(class="form-label") }}
+            {{ form.parametro(class="form-control") }}
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            {{ form.consultar(class="btn btn-primary w-100") }}
+        </div>
+    </form>
+</div>
+
+{% if erro %}
+<div class="alert alert-danger">{{ erro }}</div>
+{% endif %}
+
+{% if resultados %}
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                {% for coluna in colunas %}
+                <th>{{ coluna|capitalize|replace('_', ' ') }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in resultados %}
+            <tr>
+                {% for item in row %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% elif request.method == 'POST' %}
+<p>Nenhum resultado encontrado para os filtros aplicados.</p>
+{% endif %}
+{% endblock %}
