@@ -32,7 +32,8 @@ INSERT INTO usuarios (nome, nickname, senha, cargo_id) VALUES
 ('Diego Magalhães', 'diego', 'senha987', (SELECT id FROM cargos WHERE nome = 'gerente')),
 ('Fernanda Rocha', 'fernanda', 'senha741', (SELECT id FROM cargos WHERE nome = 'caixa')),
 ('Rafael Costa', 'rafael', 'senha852', (SELECT id FROM cargos WHERE nome = 'repositor')),
-('Juliana Martins', 'juliana', 'senha963', (SELECT id FROM cargos WHERE nome = 'estoquista'))
+('Juliana Martins', 'juliana', 'senha963', (SELECT id FROM cargos WHERE nome = 'estoquista')),
+('lionel', 'lionel', 'senha159', (SELECT id FROM cargos WHERE nome = 'estoquista'))
 ON CONFLICT (nickname) DO NOTHING;
 
 -- Inserção de fornecedores 

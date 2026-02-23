@@ -1,151 +1,16 @@
 import psycopg2
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 from flask_wtf.csrf import CSRFProtect
-
+from models.database import conecta_bd
 from formularios import FormularioProduto, FormularioUsuario, FormularioConsulta
+from models.produto_model import Produto, buscar_produtos, adicionar_produto, buscar_fornecedores, buscar_categorias
+from models.usuario_model import Usuario, buscar_usuario_por_nickname_cargo, buscar_cargos, cargo_usuario_logado, registrar_historico
+
 
 app = Flask(__name__)
 app.secret_key = 'estoquebd'
 
 csrf = CSRFProtect(app)
-
-class Produto:
-    def __init__(self, id, nome_produto, codigo, preco, quantidade, data_validade, fornecedor_id, nome_fornecedor=None, categoria_id=None, nome_categoria=None):
-        self.id = id
-        self.nome_produto = nome_produto
-        self.codigo = codigo
-        self.preco = preco
-        self.quantidade = quantidade
-        self.data_validade = data_validade
-        self.fornecedor_id = fornecedor_id
-        self.nome_fornecedor = nome_fornecedor
-        self.categoria_id = categoria_id
-        self.nome_categoria = nome_categoria
-
-class Usuario:
-    def __init__(self, nome, nickname, senha):
-        self.nome = nome
-        self.nickname = nickname
-        self.senha = senha
-
-def conecta_bd():
-    return psycopg2.connect(
-        host="localhost",
-        database="loja",
-        user="usuario",
-        password="12345"
-    )
-
-def cargo_usuario_logado():
-    usuario_logado = session.get('usuario_logado')
-    if not usuario_logado:
-        return None
-    conn = conecta_bd()
-    cur = conn.cursor()
-    cur.execute('''
-        SELECT c.nome FROM usuarios u
-        JOIN cargos c ON u.cargo_id = c.id
-        WHERE u.nickname = %s
-    ''', (usuario_logado,))
-    resultado = cur.fetchone()
-    conn.close()
-    return resultado[0] if resultado else None
-
-def registrar_historico(entidade, id_entidade, acao, descricao=None):
-    usuario_logado = session.get('usuario_logado')
-    if not usuario_logado:
-        return
-
-    conn = conecta_bd()
-    cur = conn.cursor()
-
-    cur.execute('SELECT id FROM usuarios WHERE nickname = %s', (usuario_logado,))
-    resultado = cur.fetchone()
-    if resultado is None:
-        conn.close()
-        return
-    id_usuario = resultado[0]
-
-    cur.execute(
-        'INSERT INTO historico_acoes (entidade, id_entidade, acao, id_usuario, descricao) VALUES (%s, %s, %s, %s, %s)',
-        (entidade, id_entidade, acao, id_usuario, descricao)
-    )
-    conn.commit()
-    conn.close()
-
-def buscar_produtos(nome=None, fornecedor=None):
-    conn = conecta_bd()
-    cur = conn.cursor()
-
-    sql = '''
-    SELECT p.id, p.nome_produto, p.codigo, p.preco, p.quantidade, p.data_validade, p.fornecedor_id, f.nome,
-           p.categoria_id, c.nome
-    FROM produtos p
-    LEFT JOIN fornecedores f ON p.fornecedor_id = f.id
-    LEFT JOIN categorias c ON p.categoria_id = c.id
-    WHERE TRUE
-    '''
-    params = []
-
-    if nome:
-        sql += ' AND p.nome_produto ILIKE %s'
-        params.append(f'%{nome}%')
-
-    if fornecedor:
-        sql += ' AND f.nome ILIKE %s'
-        params.append(f'%{fornecedor}%')
-
-    cur.execute(sql, params)
-    produtos = cur.fetchall()
-    conn.close()
-    return [Produto(*produto) for produto in produtos]
-
-def adicionar_produto(produto):
-    conn = conecta_bd()
-    cur = conn.cursor()
-
-    cur.execute(
-        '''INSERT INTO produtos (nome_produto, codigo, preco, quantidade, data_validade, fornecedor_id, categoria_id)
-           VALUES (%s, %s, %s, %s, %s, %s, %s)''',
-        (produto.nome_produto, produto.codigo, produto.preco, produto.quantidade, produto.data_validade, produto.fornecedor_id, produto.categoria_id)
-    )
-    conn.commit()
-    conn.close()
-
-def buscar_usuario_por_nickname_cargo(nickname, cargo_id):
-    conn = conecta_bd()
-    cur = conn.cursor()
-    cur.execute('SELECT nome, nickname, senha FROM usuarios WHERE nickname = %s AND cargo_id = %s', (nickname, cargo_id))
-    usuario = cur.fetchone()
-    conn.close()
-    if usuario:
-        return Usuario(*usuario)
-    return None
-
-def buscar_fornecedores():
-    conn = conecta_bd()
-    cur = conn.cursor()
-    cur.execute('SELECT id, nome FROM fornecedores ORDER BY nome')
-    fornecedores = cur.fetchall()
-    conn.close()
-    return fornecedores
-
-def buscar_categorias():
-    conn = conecta_bd()
-    cur = conn.cursor()
-    cur.execute('SELECT id, nome FROM categorias ORDER BY nome')
-    categorias = cur.fetchall()
-    conn.close()
-    return categorias
-
-def buscar_cargos():
-    conn = conecta_bd()
-    cur = conn.cursor()
-    cur.execute('SELECT id, nome FROM cargos ORDER BY nome')
-    cargos = cur.fetchall()
-    conn.close()
-    return cargos
-
 
 # Controle de permissões (pode ajustar os cargos que podem fazer cada ação aqui):
 PERMISSOES = {
