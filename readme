@@ -1,4 +1,4 @@
-# CSI606-2025-01 – Remoto – Proposta de Trabalho Final
+CSI606-2026-01 – Remoto – Proposta de Trabalho Final
 **Discente:** Gabriel Soares
 
 O projeto consiste no desenvolvimento de um sistema simples para gerenciar o estoque de um supermercado. O sistema permitirá cadastrar produtos, categorias e fornecedores, além de consultar e atualizar quantidades em estoque.
@@ -8,7 +8,7 @@ O projeto consiste no desenvolvimento de um sistema simples para gerenciar o est
 
 O trabalho tem como tema o desenvolvimento de um **Sistema de Gerenciamento de Estoque de Supermercado**.
 
- 2. Escopo
+2. Escopo
 
 O sistema terá as seguintes funcionalidades básicas:
 
@@ -18,14 +18,14 @@ O sistema terá as seguintes funcionalidades básicas:
 - Associação de produtos a categorias e fornecedores previamente cadastrados
 - Controle de acesso por tipo de usuário
 
- 3. Restrições
+3. Restrições
 
 Neste trabalho não serão considerados:
 - Controle financeiro  
 - Integração com sistema de vendas (PDV)  
 - Relatórios avançados ou análises 
 
-## 4. Protótipo
+4. Protótipo
 Foram desenvolvidos protótipos simples das principais telas do sistema, com foco na usabilidade e organização das informações.
 As telas principais incluem:
 - Tela de login
