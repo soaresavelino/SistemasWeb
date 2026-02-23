@@ -1,39 +1,33 @@
-Execução da aplicação web chamada "CadastraFácil" desenvolvida em Flask,  um framework web em Python para o backend e outras tecnologias, como PostgreSQL, Flask-WTF, Bootstrap, CSS, e Jinja2.
-Passo a passo para execução do script:
+# CSI606-2025-01 – Remoto – Proposta de Trabalho Final
+**Discente:** Gabriel Soares
 
-1. Como pré-requisito, é necessário que tenha instalado em sua máquina um ambiente de desenvolvimento (Optei por utilizar o VS Code).
+O projeto consiste no desenvolvimento de um sistema simples para gerenciar o estoque de um supermercado. O sistema permitirá cadastrar produtos, categorias e fornecedores, além de consultar e atualizar quantidades em estoque.
 
-2. O segundo passo é garantir que o Python 3 esteja instalado no seu sistema.
 
-3. Crie um ambiente virtual para isolar as dependências do projeto. Isso pode ser feito executando: python -m venv venv
+1. Tema
 
-4. No terminal do seu ambiente de desenvolvimento, instale as dependências do projeto, executando o seguinte comando: 
-pip install Flask psycopg2 Flask-WTF
+O trabalho tem como tema o desenvolvimento de um **Sistema de Gerenciamento de Estoque de Supermercado**.
 
-5. Modifique as configurações de conexão com o banco de dados localizada em ./loja.py para corresponder às suas credenciais de POSTGRESQL:
+ 2. Escopo
 
-def conecta_bd():
-    return psycopg2.connect(
-        host="localhost",
-        database="seu banco de dados",
-        user="seu usuario",
-        password="sua senha"
-)
-6. Execute o script SQL para criar as tabelas, você pode encontrar os scripts para criação do BD no diretório ./database/create.sql.
+O sistema terá as seguintes funcionalidades básicas:
 
-7. Com o banco de dados configurado e todas as dependências instaladas, você já pode rodar o projeto. No terminal, execute o seguinte comando para rodar a aplicação: python loja.py, acluqie no botão de executar e acesse o endereço local.
-O servidor Flask deve iniciar, e você pode acessar o sistema pelo navegador.
+- Cadastro de produtos
+- Cadastro de categorias
+- Cadastro de fornecedores
+- Atualização de quantidades em estoque
+- Consulta e busca de produtos
 
-obs: alguns comandos talves precisam ser utilizados para q seja concedido privilégios ao usuário, permitindo q ele acesse e manipule dados, além de realizar operaçoes:
+ 3. Restrições
 
--- 1. Concede todos os privilégios (SELECT, INSERT, UPDATE, DELETE) em TODAS as tabelas EXISTENTES.
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "Usuário";
+Neste trabalho não serão considerados:
+- Controle financeiro  
+- Integração com sistema de vendas (PDV)  
+- Relatórios avançados ou análises 
 
--- 2. Concede permissão de uso em TODAS as "sequences" (usadas para gerar IDs automáticos).
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO "Usuário";
+## 4. Protótipo
+Protótipos simples das telas principais (como cadastro e listagem de produtos) serão elaborados posteriormente e atualizados
 
--- 3. Garante que o usuário "Laura andrade" terá automaticamente permissão em QUALQUER TABELA NOVA criada no futuro.
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO "Usuário";
 
--- 4. O mesmo para as "sequences" de tabelas futuras.
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON SEQUENCES TO "Usuário";
+  
+
