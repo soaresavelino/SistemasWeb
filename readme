@@ -12,11 +12,11 @@ O trabalho tem como tema o desenvolvimento de um **Sistema de Gerenciamento de E
 
 O sistema terá as seguintes funcionalidades básicas:
 
-- Cadastro de produtos
-- Cadastro de categorias
-- Cadastro de fornecedores
-- Atualização de quantidades em estoque
+- Cadastro, edição e exclusão de produtos
 - Consulta e busca de produtos
+- Atualização de quantidades em estoque
+- Associação de produtos a categorias e fornecedores previamente cadastrados
+- Controle de acesso por tipo de usuário
 
  3. Restrições
 
@@ -26,7 +26,12 @@ Neste trabalho não serão considerados:
 - Relatórios avançados ou análises 
 
 ## 4. Protótipo
-Protótipos simples das telas principais (como cadastro e listagem de produtos) serão elaborados posteriormente e atualizados
+Foram desenvolvidos protótipos simples das principais telas do sistema, com foco na usabilidade e organização das informações.
+As telas principais incluem:
+- Tela de login
+- Tela de listagem de produtos
+- Tela de cadastro e edição de produtos
+- Histórico
 
 
   
